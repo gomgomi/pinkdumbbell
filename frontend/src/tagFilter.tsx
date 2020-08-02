@@ -36,6 +36,9 @@ interface AccodionToggleButtonProps {
   handleAccordionToggle: any;
 }
 
+/**
+ * eventKey에 해당하는 Accodian의 collapse 동작 버튼 반환 및 동작 처리.
+ */
 const AccodionToggleButton = (props: AccodionToggleButtonProps) => {
   const decoratedOnClick = useAccordionToggle(
     props.eventKey,
@@ -44,8 +47,8 @@ const AccodionToggleButton = (props: AccodionToggleButtonProps) => {
 
   return (
     <button
+      className="button-collapse"
       type="button"
-      style={{ backgroundColor: "pink" }}
       onClick={decoratedOnClick}
     >
       {props.isExpanded ? <ChevronUp /> : <ChevronDown />}
@@ -53,6 +56,9 @@ const AccodionToggleButton = (props: AccodionToggleButtonProps) => {
   );
 };
 
+/**
+ * Tag 필터 목록을 표시하는 컴포넌트.
+ */
 const TagFilter = () => {
   const [isExpanded, setExpanded] = useState(false);
   const [selectedTag, setSelectedTag] = useState(TagNames.main[0]);
@@ -70,7 +76,7 @@ const TagFilter = () => {
   return (
     <Accordion>
       <Card>
-        <Card.Header>
+        <Card.Header className="filter">
           {TagNames.main.map((name, index) => (
             <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
           ))}
@@ -81,7 +87,7 @@ const TagFilter = () => {
           ></AccodionToggleButton>
         </Card.Header>
         <Accordion.Collapse eventKey="0">
-          <Card.Body>
+          <Card.Body className="filter" >
             {TagNames.sub.map((name, index) => (
               <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
             ))}
