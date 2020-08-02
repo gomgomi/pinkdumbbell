@@ -71,8 +71,8 @@ const TagFilter = () => {
     <Accordion>
       <Card>
         <Card.Header>
-          {TagNames.main.map(name => (
-            <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag}>{name}</button>
+          {TagNames.main.map((name, index) => (
+            <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
           ))}
           <AccodionToggleButton
             eventKey="0"
@@ -82,8 +82,8 @@ const TagFilter = () => {
         </Card.Header>
         <Accordion.Collapse eventKey="0">
           <Card.Body>
-            {TagNames.sub.map(name => (
-              <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag}>{name}</button>
+            {TagNames.sub.map((name, index) => (
+              <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
             ))}
           </Card.Body>
         </Accordion.Collapse>
