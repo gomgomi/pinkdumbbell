@@ -1,0 +1,54 @@
+.panel-filter.container {
+  border: 1px solid gray;
+  border-radius: 20px;
+  padding: 5px;
+  margin: 5px 10px;
+}
+
+.panel-filter.card,
+.panel-filter.card-header,
+.panel-filter.accordion-collapse {
+  background: transparent;
+  border: none;
+}
+
+.filter-tag {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: transparent;
+  border: 1.47px solid #d9d9d9;
+  min-width: 70px;
+  color: #676767;
+  font-size: 13x;
+  font-weight: bold;
+}
+
+.filter-tag:focus {
+  outline: none;
+}
+
+.filter-tag.on {
+  background-color: #f5a8d5;
+  color: #f4f5f7;
+  border: none;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.filter-datepicker {
+  height: 40px;
+  width: 100%;
+}
+
+.button-collapse {
+  margin-left: 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.button-collapse:focus {
+  outline: none;
+}
