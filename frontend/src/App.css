@@ -59,3 +59,11 @@
 .dropdown-toggle:hover {
   border: 1px solid #fb7485 !important;
 }
+
+.content {
+  max-width: 300px;
+}
+
+.content.card img {
+  padding: 10px;
+}
