@@ -1,0 +1,61 @@
+.panel-filter {
+  border: 1px solid gray;
+  border-radius: 20px;
+  padding: 5px;
+  margin: 5px 10px;
+}
+
+.panel-filter.card,
+.panel-filter.card-header,
+.panel-filter.accordion-collapse {
+  background: transparent;
+  border: none;
+}
+
+.filter-tag {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: transparent;
+  border: 1.47px solid #d9d9d9;
+  min-width: 70px;
+  color: #676767;
+  font-size: 13x;
+  font-weight: bold;
+}
+
+.filter-tag:focus {
+  outline: none;
+}
+
+.filter-tag.on {
+  background-color: #fb7485;
+  color: #f4f5f7;
+  border: none;
+}
+
+.button-collapse {
+  margin-left: 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.button-collapse:focus {
+  outline: none;
+}
+
+.datepicker {
+  border: 1px solid #000;
+}
+
+.datepicker:hover {
+  border: 1px solid #fb7485;
+}
+
+.dropdown-toggle {
+  border: 1px solid #000 !important;
+}
+
+.dropdown-toggle:hover {
+  border: 1px solid #fb7485 !important;
+}

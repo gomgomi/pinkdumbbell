@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Accordion, Card, useAccordionToggle } from "react-bootstrap";
+import { Accordion, Card, useAccordionToggle, Container } from "react-bootstrap";
 import { ChevronDown, ChevronUp } from "react-bootstrap-icons";
-import "./tagFilter.css";
 
 const TagNames = {
   main: [
@@ -74,27 +73,29 @@ const TagFilter = () => {
   };
 
   return (
-    <Accordion>
-      <Card>
-        <Card.Header className="filter">
-          {TagNames.main.map((name, index) => (
-            <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
-          ))}
-          <AccodionToggleButton
-            eventKey="0"
-            isExpanded={isExpanded}
-            handleAccordionToggle={toggledTagList}
-          ></AccodionToggleButton>
-        </Card.Header>
-        <Accordion.Collapse eventKey="0">
-          <Card.Body className="filter" >
-            {TagNames.sub.map((name, index) => (
+    <Container className="panel-filter">
+      <Accordion>
+        <Card className="panel-filter">
+          <Card.Header className="panel-filter">
+            {TagNames.main.map((name, index) => (
               <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
             ))}
-          </Card.Body>
-        </Accordion.Collapse>
-      </Card>
-    </Accordion>
+            <AccodionToggleButton
+              eventKey="0"
+              isExpanded={isExpanded}
+              handleAccordionToggle={toggledTagList}
+            ></AccodionToggleButton>
+          </Card.Header>
+          <Accordion.Collapse eventKey="0" className="panel-filter accordion-collapse">
+            <Card.Body>
+              {TagNames.sub.map((name, index) => (
+                <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
+              ))}
+            </Card.Body>
+          </Accordion.Collapse>
+        </Card>
+      </Accordion>
+    </Container>
   );
 };
 
