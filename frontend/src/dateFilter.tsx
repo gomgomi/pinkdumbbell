@@ -3,28 +3,33 @@ import { Container, Row, Dropdown, Col } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+const Period = ["Daily", "Weekly"];
+
 const DateFilter = () => {
   const [date, setDate] = useState(new Date());
+  const [period, setPeriod] = useState(Period[0]);
 
-  const handleChange = (date: Date) => {
+  const handleDateChange = (date: Date) => {
     setDate(date);
+  };
+
+  const handlePeriodChange = (eventKey: any) => {   
+    setPeriod(eventKey);
   };
 
   return (
     <Container className="panel-filter">
       <Row>
         <Col>
-          <DatePicker selected={date} onChange={handleChange} />
+          <DatePicker selected={date} onChange={handleDateChange} />
         </Col>
         <Col>
-          <Dropdown>
+          <Dropdown onSelect={handlePeriodChange}>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Daily
+              {period}
             </Dropdown.Toggle>
-
             <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Daily</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Weekly</Dropdown.Item>
+              {Period.map((name) => (<Dropdown.Item eventKey={name}>{name}</Dropdown.Item>))}
             </Dropdown.Menu>
           </Dropdown>
         </Col>
