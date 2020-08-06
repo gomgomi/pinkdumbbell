@@ -21,11 +21,11 @@ const DateFilter = () => {
     <Container className="panel-filter">
       <Row>
         <Col>
-          <DatePicker selected={date} onChange={handleDateChange} />
+          <DatePicker className="datepicker" selected={date} onChange={handleDateChange} />
         </Col>
         <Col>
           <Dropdown onSelect={handlePeriodChange}>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
+            <Dropdown.Toggle variant="dropdown-toggle">
               {period}
             </Dropdown.Toggle>
             <Dropdown.Menu>

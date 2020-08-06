@@ -1,4 +1,4 @@
-.panel-filter.container {
+.panel-filter {
   border: 1px solid gray;
   border-radius: 20px;
   padding: 5px;
@@ -29,18 +29,9 @@
 }
 
 .filter-tag.on {
-  background-color: #f5a8d5;
+  background-color: #fb7485;
   color: #f4f5f7;
   border: none;
-}
-
-.react-datepicker-wrapper {
-  width: 100%;
-}
-
-.filter-datepicker {
-  height: 40px;
-  width: 100%;
 }
 
 .button-collapse {
@@ -51,4 +42,20 @@
 
 .button-collapse:focus {
   outline: none;
+}
+
+.datepicker {
+  border: 1px solid #000;
+}
+
+.datepicker:hover {
+  border: 1px solid #fb7485;
+}
+
+.dropdown-toggle {
+  border: 1px solid #000 !important;
+}
+
+.dropdown-toggle:hover {
+  border: 1px solid #fb7485 !important;
 }
