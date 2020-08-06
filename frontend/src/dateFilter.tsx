@@ -29,7 +29,7 @@ const DateFilter = () => {
               {period}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              {Period.map((name) => (<Dropdown.Item eventKey={name}>{name}</Dropdown.Item>))}
+              {Period.map((name, index) => (<Dropdown.Item key={index} eventKey={name}>{name}</Dropdown.Item>))}
             </Dropdown.Menu>
           </Dropdown>
         </Col>
