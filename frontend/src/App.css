@@ -60,6 +60,13 @@
   border: 1px solid #fb7485 !important;
 }
 
+.content-list.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 10px;
+}
+
 .content {
   max-width: 300px;
 }

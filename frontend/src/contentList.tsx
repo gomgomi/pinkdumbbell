@@ -69,8 +69,8 @@ const ContentList = () => {
       hasMore={hasMoreContents}
       loader={<div className="loader" key={0}>Loading ...</div>}
     >
-      <Container>
-        <Row>{contents}</Row>
+      <Container className="content-list">
+        {contents}
       </Container>
     </InfiniteScroll>
   );
