@@ -62,11 +62,6 @@ const ContentList = () => {
     }
   };
 
-  // 해당 컴포넌트 처음 생성되었을 때 컨텐츠 표시
-  if (contents.length === 0) {
-    loadContents();
-  }
-
   return (
     <InfiniteScroll
       pageStart={0}
