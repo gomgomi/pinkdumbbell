@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Card } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
 
 interface ContentItemProps {
