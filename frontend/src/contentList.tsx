@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container, Row, Card } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
 
@@ -7,12 +7,11 @@ interface ContentItemProps {
   date: string;
   title: string;
   hits: number;
-};
+}
 
 /**
  * ContentList에 표시되는 아이템 컴포넌트
  */
-// const ContentItem = (props: ContentItemProps) => {
 const ContentItem = (props: ContentItemProps) => {
   return (
     <Card className="content">
@@ -26,8 +25,6 @@ const ContentItem = (props: ContentItemProps) => {
   );
 };
 
-interface ContentListProps {}
-
 /**
  * 서버로부터 획득한 컨텐츠 리스트를 표시하는 컴포넌트
  */
@@ -35,52 +32,52 @@ const ContentList = () => {
   const [contents, setContents] = useState<JSX.Element[]>([]);
   const [hasMoreContents, setHasMoreContents] = useState(true);
 
-  const loadFunc = () => {
-    const newContents  = Object.assign([], contents);
-    const prevContentCount = newContents.length;
-
-    let todayDate = new Date();
-    let date = String(todayDate.getFullYear());
-    date += "-";
-    date += String(todayDate.getMonth() + 1).padStart(2, '0');
-    date += "-";
-    date += String(todayDate.getDate()).padStart(2, '0');
-
-    for (let i = 0; i < 10; i++) {
-      newContents.push(
-        <ContentItem
-          key={prevContentCount + i}
-          thumbnail={require("./assets/test-content-thumbnail.jpg")}
-          date={date}
-          title="Test title"
-          hits={prevContentCount + i}
-        />
-      );
+  const loadContents = () => {
+    if (contents.length >= 100) {
+      setHasMoreContents(false);
+    } else {
+      const newContents = Object.assign([], contents);
+      const prevContentCount = newContents.length;
+  
+      let todayDate = new Date();
+      let date = String(todayDate.getFullYear());
+      date += "-";
+      date += String(todayDate.getMonth() + 1).padStart(2, "0");
+      date += "-";
+      date += String(todayDate.getDate()).padStart(2, "0");
+  
+      for (let i = 0; i < 10; i++) {
+        newContents.push(
+          <ContentItem
+            key={prevContentCount + i}
+            thumbnail={require("./assets/test-content-thumbnail.jpg")}
+            date={date}
+            title="Test title"
+            hits={prevContentCount + i}
+          />
+        );
+      }
+  
+      setContents(newContents);
     }
-
-    setContents(newContents);
   };
 
-  useEffect(() => {
-    console.log("Called useEffect");
-    console.log(contents);
-  }, [contents]);
+  // 해당 컴포넌트 처음 생성되었을 때 컨텐츠 표시
+  if (contents.length === 0) {
+    loadContents();
+  }
 
   return (
-    <Container>
-      {/* <InfiniteScroll
-        pageStart={0}
-        loadMore={loadFunc}
-        hasMore={hasMoreContents}
-        loader={<div className="loader">Loading ...</div>}
-        // useWindow={false}
-        // getScrollParent={() => this.scrollParentRef}
-      >
-        {contents}
-      </InfiniteScroll> */}
-      <Row className="contents">{contents}</Row>
-      <Row><button onClick={loadFunc}>Load more</button></Row>
-    </Container>
+    <InfiniteScroll
+      pageStart={0}
+      loadMore={loadContents}
+      hasMore={hasMoreContents}
+      loader={<div className="loader" key={0}>Loading ...</div>}
+    >
+      <Container>
+        <Row>{contents}</Row>
+      </Container>
+    </InfiniteScroll>
   );
 };
 
