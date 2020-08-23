@@ -1,0 +1,163 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Pinkdumbbell API",
+    "version": "1.0.0",
+    "title": "Pinkdumbbell",
+    "termsOfService": ""
+  },
+  "tags": [
+    {
+      "name": "contents",
+      "description": "표시할 컨텐츠 목록 요청"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/contents": {
+      "get": {
+        "tags": [
+          "contents"
+        ],
+        "summary": "카테고리 구분없이 컨텐츠 목록 요청",
+        "description": "",
+        "operationId": "getContents",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지 번호",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "기준 날짜",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "description": "검색 기간",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Content"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/contents/{categoryId}": {
+      "get": {
+        "tags": [
+          "contents"
+        ],
+        "summary": "카테고리 ID에 해당하는 컨텐츠 목록 요청",
+        "description": "",
+        "operationId": "getContentsByCategoryId",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "요청할 컨첸츠의 카테고리 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지 번호",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "기준 날짜",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "description": "검색 기간",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Content": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "thumbnailUri": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "hits": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Github",
+    "url": "https://github.com/gomgomi/pinkdumbbell"
+  }
+}
