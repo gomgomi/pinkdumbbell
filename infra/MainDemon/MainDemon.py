@@ -8,13 +8,14 @@ import MariaController
 import datetime
 import sys
 import os.path
-
+import schedule
+import time
 
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
-cateID = 1
 
-def youtube_search(Max_Result, apiKey):
+
+def youtube_search(Max_Result, apiKey, CateID, DBIP, DBPort, DBID, DBPW, DBName):
   youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
     developerKey=apiKey)
 
@@ -25,11 +26,11 @@ def youtube_search(Max_Result, apiKey):
     chart='mostPopular',    
     maxResults=Max_Result,
     regionCode='KR',
-    videoCategoryId=cateID
+    videoCategoryId=CateID
   ).execute()
 
   videos = []
-  maria_controller = MariaController.MController(config['DB']['IP'], int(config['DB']['PORT']), config['DB']['ID'], config['DB']['PW'], config['DB']['DBNAME'])  
+  maria_controller = MariaController.MController(DBIP, DBPort, DBID, DBPW, DBName)  
   NowDate = datetime.date.today() 
   NowDateTime = datetime.datetime.today() 
 
@@ -56,14 +57,14 @@ def youtube_search(Max_Result, apiKey):
       videos.append(-1)         
     videos.append("https://www.youtube.com/watch?v=" + search_result["id"])    
 
-    qry = 'select * from VideoData where VideoID = "{}" and ChannelID = "{}" and InsertDT = "{}"'.format(videos[0], videos[1], NowDate)
+    qry = 'select * from videodata where VideoID = "{}" and ChannelID = "{}" and InsertDT = "{}"'.format(videos[0], videos[1], NowDate)
     sResult = maria_controller.select_query(qry)
     if len(sResult) == 0:
-      qry = 'insert into VideoData values ("{}","{}","{}",{},"{}","{}","{}","{}","{}",{},{},{},{},{},"{}","{}", "{}")'.format(
+      qry = 'insert into videodata values ("{}","{}","{}",{},"{}","{}","{}","{}","{}",{},{},{},{},{},"{}","{}", "{}")'.format(
         videos[0],  #VideoID
         videos[1],  #ChannelID
         NowDate,    #InsertDT        
-        cateID,     #CategoryId    
+        CateID,     #CategoryId    
         videos[2],  #PublishedAT
         videos[3].replace('"', '""',),  #Title
         videos[4].replace('"', '""',),  #Description
@@ -78,7 +79,7 @@ def youtube_search(Max_Result, apiKey):
         videos[11], #URL     
         NowDateTime) #UpdateDT    
     else:
-      qry = 'update VideoData set Title="{}", Description="{}" ,ChannelTitle="{}",Thumbnails="{}",ViewCount={}, DailyViewCount={}, LikeCount={}, DislikeCount={}, CommentCount={}  where VideoID="{}" and ChannelID="{}" and InsertDT="{}" and CategoryId="{}"'.format(
+      qry = 'update videodata set Title="{}", Description="{}" ,ChannelTitle="{}",Thumbnails="{}",ViewCount={}, DailyViewCount={}, LikeCount={}, DislikeCount={}, CommentCount={}  where VideoID="{}" and ChannelID="{}" and InsertDT="{}" and CategoryId="{}"'.format(
         videos[3].replace('"', '""',),  #Title
         videos[4].replace('"', '""',),  #Description
         videos[5],  #ChannelTitle
@@ -91,22 +92,39 @@ def youtube_search(Max_Result, apiKey):
         sResult[0][0],  #VideoID
         sResult[0][1],  #ChannelID
         sResult[0][2],  #InsetDT
-        cateID          #CategoryId
+        CateID          #CategoryId
       )
-      # print(qry)
+      # print(qry)              //for debug
     maria_controller.execute_query(qry)        
-    print(videos[3])    
+    # print(videos[3])          //for debug
     videos = [] 
 
+def do_timer():
+    
+      config = configparser.ConfigParser()      
+      inipath = sys.path[0] + '\config.ini'
+      print(inipath)
+      config.read(inipath)           
+      ResultCnt = config['YOUTUBE']['ResultCnt']
 
-if __name__ == "__main__":   
+      CID =  list(map(int, config['YOUTUBE']['CID'].split()))
+     
+      for i in CID:        
+        try:
+          youtube_search(ResultCnt, config['YOUTUBE']['ApiKey'], i,
+          config['DB']['IP'], int(config['DB']['PORT']),config['DB']['ID'], config['DB']['PW'], config['DB']['DBNAME'])
+        except HttpError as e:
+          print ("An error  occurred:\n%s" % (e.content))
 
-    config = configparser.ConfigParser()
-    inipath = sys.path[0] + '\config.ini'
-    config.read(inipath)           
-    ResultCnt = config['YOUTUBE']['ResultCnt']
 
-    try:
-        youtube_search(ResultCnt, config['YOUTUBE']['ApiKey'])
-    except HttpError as e:
-        print ("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
+
+if __name__ == "__main__":       
+
+    do_timer()
+
+    # schedule.every().hour.do(do_timer)
+    # schedule.every(2).minutes.do(do_timer)    //for debug
+
+    # while True:
+    #   schedule.run_pending()
+    #   time.sleep(60)
