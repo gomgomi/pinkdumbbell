@@ -1,5 +1,6 @@
 package pinkdumbbell.youtubeTrend.service;
 
+import pinkdumbbell.youtubeTrend.domain.Contents;
 import pinkdumbbell.youtubeTrend.domain.VideoData;
 import pinkdumbbell.youtubeTrend.domain.VideoDataRepository;
 
@@ -21,4 +22,13 @@ public class VideoDataService {
             System.out.println("findMembers " + timeMs + "ms");
         }
     }
+
+    public List<VideoData> findVideoContents(Contents contents) {
+        return videoDataRepository.findVideoContents(contents);
+    }
+
+    public List<VideoData> findVideoCategoryId(Contents contents) {
+        return videoDataRepository.findVideoCategoryId(contents);
+    }
+
 }

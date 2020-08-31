@@ -32,9 +32,31 @@ public class YoutubeTrendController {
     }
 
     @RequestMapping(value = "/contents", method = RequestMethod.GET)
-    public Contents contents(@RequestBody Contents contents)
+    public List<VideoData> contents(@RequestParam("page") int page,
+                             @RequestParam("date") String date,
+                             @RequestParam("period") String period)
     {
-        System.out.println("test");
+        Contents contents = new Contents();
+        contents.setPage(page);
+        contents.setDate(date);
+        contents.setPeriod(period);
+
+        List<VideoData> videoData = videoDataService.findVideoContents(contents);
+        return videoData;
+    }
+
+    @GetMapping("/contents/{categoryId}")
+    public Contents contentsOfCategoryId(@PathVariable("categoryId") int categoryId,
+                                         @RequestParam("page") int page,
+                                         @RequestParam("date") String date,
+                                         @RequestParam("period") String period)
+    {
+        Contents contents = new Contents();
+        contents.setCategoryId(categoryId);
+        contents.setPage(page);
+        contents.setDate(date);
+        contents.setPeriod(period);
+
         return contents;
     }
 

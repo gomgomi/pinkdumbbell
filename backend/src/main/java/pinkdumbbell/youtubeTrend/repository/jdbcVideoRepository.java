@@ -2,10 +2,12 @@ package pinkdumbbell.youtubeTrend.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import pinkdumbbell.youtubeTrend.domain.Contents;
 import pinkdumbbell.youtubeTrend.domain.VideoDataRepository;
 import pinkdumbbell.youtubeTrend.domain.VideoData;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 public class jdbcVideoRepository implements VideoDataRepository {
@@ -16,6 +18,41 @@ public class jdbcVideoRepository implements VideoDataRepository {
 
     @Override
     public List<VideoData> findVideoID() {
+        return jdbcTemplate.query("select * from videodata", memberRowMapper());
+    }
+
+    @Override
+    public List<VideoData> findVideoContents(Contents contents)  {
+        String date = contents.getDate();
+        int page = contents.getPage();
+        String period = contents.getPeriod();
+        String[] splitPeriod = new String[1];
+
+        if(!period.isEmpty()) {
+            splitPeriod = period.split("~");
+        }
+
+        String sql = "SELECT * " +
+                "FROM (" +
+                "SELECT *, ROW_NUMBER() OVER (ORDER BY DailyViewCount DESC) AS DailyViewRowNumber " +
+                "FROM videodata WHERE InsertDT = ?) AS videoDataRank " +
+                "WHERE videoDataRank.DailyViewRowNumber < ?";
+
+        String periodSql = "SELECT * " +
+        "FROM (" +
+        "SELECT *, ROW_NUMBER() OVER (ORDER BY DailyViewCount DESC) AS DailyViewRowNumber " +
+        "FROM videodata WHERE InsertDT > ? AND InsertDT < ?) AS videoDataRank " +
+        "WHERE videoDataRank.DailyViewRowNumber < ?";
+
+        if(period.isEmpty()) {
+            return jdbcTemplate.query(sql, new Object[]{date, page}, memberRowMapper());
+        } else {
+            return jdbcTemplate.query(periodSql, new Object[]{splitPeriod[0], splitPeriod[1], page}, memberRowMapper());
+        }
+    }
+
+    @Override
+    public List<VideoData> findVideoCategoryId(Contents contents) {
         return jdbcTemplate.query("select * from videodata", memberRowMapper());
     }
 
@@ -43,5 +80,4 @@ public class jdbcVideoRepository implements VideoDataRepository {
             return videoData;
         };
     }
-
 }
