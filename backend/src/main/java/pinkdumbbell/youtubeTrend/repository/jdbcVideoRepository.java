@@ -23,8 +23,14 @@ public class jdbcVideoRepository implements VideoDataRepository {
 
     @Override
     public List<VideoData> findVideoContents(Contents contents)  {
+        final int numberContentPage = 20;   // 상수를 별도로 관리하는 파일을 생성 해야 할까 ?
         String date = contents.getDate();
-        int page = contents.getPage();
+        int startCountContent = (contents.getPage() - 1) * numberContentPage;
+        int endCountContent = contents.getPage() * numberContentPage;
+
+        System.out.println("startCountContent : " + startCountContent);
+        System.out.println("endCountContent : " + endCountContent);
+
         String period = contents.getPeriod();
         String[] splitPeriod = new String[1];
 
@@ -36,18 +42,18 @@ public class jdbcVideoRepository implements VideoDataRepository {
                 "FROM (" +
                 "SELECT *, ROW_NUMBER() OVER (ORDER BY DailyViewCount DESC) AS DailyViewRowNumber " +
                 "FROM videodata WHERE InsertDT = ?) AS videoDataRank " +
-                "WHERE videoDataRank.DailyViewRowNumber < ?";
+                "WHERE videoDataRank.DailyViewRowNumber > ? AND videoDataRank.DailyViewRowNumber <= ?";
 
         String periodSql = "SELECT * " +
-        "FROM (" +
-        "SELECT *, ROW_NUMBER() OVER (ORDER BY DailyViewCount DESC) AS DailyViewRowNumber " +
-        "FROM videodata WHERE InsertDT > ? AND InsertDT < ?) AS videoDataRank " +
-        "WHERE videoDataRank.DailyViewRowNumber < ?";
+                        "FROM (" +
+                        "SELECT *, ROW_NUMBER() OVER (ORDER BY DailyViewCount DESC) AS DailyViewRowNumber " +
+                        "FROM videodata WHERE InsertDT > ? AND InsertDT < ?) AS videoDataRank " +
+                        "WHERE videoDataRank.DailyViewRowNumber > ? AND videoDataRank.DailyViewRowNumber <= ?";
 
         if(period.isEmpty()) {
-            return jdbcTemplate.query(sql, new Object[]{date, page}, memberRowMapper());
+            return jdbcTemplate.query(sql, new Object[]{date, startCountContent, endCountContent}, memberRowMapper());
         } else {
-            return jdbcTemplate.query(periodSql, new Object[]{splitPeriod[0], splitPeriod[1], page}, memberRowMapper());
+            return jdbcTemplate.query(periodSql, new Object[]{splitPeriod[0], splitPeriod[1], startCountContent, endCountContent}, memberRowMapper());
         }
     }
 
