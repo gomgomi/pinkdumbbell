@@ -46,7 +46,7 @@ public class YoutubeTrendController {
     }
 
     @GetMapping("/contents/{categoryId}")
-    public Contents contentsOfCategoryId(@PathVariable("categoryId") int categoryId,
+    public List<VideoData> contentsOfCategoryId(@PathVariable("categoryId") int categoryId,
                                          @RequestParam("page") int page,
                                          @RequestParam("date") String date,
                                          @RequestParam("period") String period)
@@ -57,7 +57,11 @@ public class YoutubeTrendController {
         contents.setDate(date);
         contents.setPeriod(period);
 
-        return contents;
+        List<VideoData> videoData = videoDataService.findVideoCategoryId(contents);
+
+        System.out.println(categoryId);
+
+        return videoData;
     }
 
     // 아래 코드는 참고용
