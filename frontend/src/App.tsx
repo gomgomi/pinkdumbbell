@@ -2,8 +2,7 @@ import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row } from "react-bootstrap";
-import TagFilter from "./tagFilter";
-import DateFilter from "./dateFilter";
+import Filter from "./components/filter";
 import ContentList from "./contentList";
 import TopScrollButton from "./topScrollButton";
 
@@ -12,10 +11,7 @@ function App() {
     <div>
       <Container>
         <Row>
-          <TagFilter />
-        </Row>
-        <Row>
-          <DateFilter />
+          <Filter/>
         </Row>
         <Row>
           <ContentList />
