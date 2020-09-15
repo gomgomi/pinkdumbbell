@@ -33,6 +33,14 @@
         ],
         "parameters": [
           {
+            "name": "categoryId",
+            "in": "path",
+            "description": "요청할 컨첸츠의 카테고리 ID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
             "name": "page",
             "in": "query",
             "description": "페이지 번호",
@@ -72,64 +80,6 @@
           }
         }
       }
-    },
-    "/contents/{categoryId}": {
-      "get": {
-        "tags": [
-          "contents"
-        ],
-        "summary": "카테고리 ID에 해당하는 컨텐츠 목록 요청",
-        "description": "",
-        "operationId": "getContentsByCategoryId",
-        "parameters": [
-          {
-            "name": "categoryId",
-            "in": "path",
-            "description": "요청할 컨첸츠의 카테고리 ID",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "페이지 번호",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "date",
-            "in": "query",
-            "description": "기준 날짜",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "period",
-            "in": "query",
-            "description": "검색 기간",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad request."
-          },
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
     }
   },
   "definitions": {
@@ -140,16 +90,32 @@
           "type": "integer",
           "format": "int64"
         },
-        "thumbnailUri": {
+        "channelId": {
+          "type": "string"
+        },
+        "channelThumbnails": {
+          "type": "string"
+        },
+        "channelTitle": {
+          "type": "string"
+        },
+        "dailyViewCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "publishedAt": {
+          "type": "string"
+        },
+        "thumbnails": {
           "type": "string"
         },
         "title": {
           "type": "string"
         },
-        "date": {
+        "videoId": {
           "type": "string"
         },
-        "hits": {
+        "viewCount": {
           "type": "integer",
           "format": "int64"
         }
