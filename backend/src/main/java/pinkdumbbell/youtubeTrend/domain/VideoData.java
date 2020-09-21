@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.util.Date;
 
 public class VideoData {
-    private Long index;
     private String channelID;
     private String channelTitle;
     private int dailyViewCount;
@@ -13,14 +12,6 @@ public class VideoData {
     private String title;
     private String videoID;
     private Long viewCount;
-
-    public Long getIndex() {
-        return index;
-    }
-
-    public void setIndex(Long index) {
-        this.index = index;
-    }
 
     public String getChannelID() {
         return channelID;
