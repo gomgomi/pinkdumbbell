@@ -51,10 +51,10 @@ public class YoutubeTrendController {
         System.out.println("date :" + date);
         System.out.println("period :" + period);
 
-        if("DATE".equals(period)){
+        if("Daily".equalsIgnoreCase(period)){
             contents.setDate(date);
             System.out.println("contents.getDate()" + contents.getDate());
-        } else if("PERIOD".equals(period)){
+        } else if("Weekly".equalsIgnoreCase(period)){
             Date firstDate;
             Date endDate;
             String periodDates;
@@ -88,9 +88,9 @@ public class YoutubeTrendController {
         contents.setCategoryId(categoryId);
         contents.setPage(page);
 
-        if("DATE".equals(period)){
+        if("Daily".equalsIgnoreCase(period)){
             contents.setDate(date);
-        } else if("PERIOD".equals(period)){
+        } else if("Weekly".equalsIgnoreCase(period)){
             Date firstDate;
             Date endDate;
             String periodDates;

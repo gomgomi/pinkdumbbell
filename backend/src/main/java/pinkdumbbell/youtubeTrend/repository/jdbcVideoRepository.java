@@ -37,7 +37,7 @@ public class jdbcVideoRepository implements VideoDataRepository {
 
         System.out.println("period of jdbcVideoRepository :" + period);
 
-        if("PERIOD".equals(period)) {
+        if("Weekly".equalsIgnoreCase(period)) {
             splitPeriod = date.split("~");
         }
 
@@ -53,7 +53,7 @@ public class jdbcVideoRepository implements VideoDataRepository {
                         "FROM videodata WHERE InsertDT > ? AND InsertDT < ?) AS videoDataRank " +
                         "WHERE videoDataRank.DailyViewRowNumber > ? AND videoDataRank.DailyViewRowNumber <= ?";
 
-        if("DATE".equals(period)) {
+        if("Daily".equalsIgnoreCase(period)) {
             return jdbcTemplate.query(sql, new Object[]{date, startCountContent, endCountContent}, memberRowMapper());
         } else {
             return jdbcTemplate.query(periodSql, new Object[]{splitPeriod[0], splitPeriod[1], startCountContent, endCountContent}, memberRowMapper());
