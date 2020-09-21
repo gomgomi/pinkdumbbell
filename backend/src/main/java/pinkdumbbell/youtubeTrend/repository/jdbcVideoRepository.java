@@ -23,7 +23,7 @@ public class jdbcVideoRepository implements VideoDataRepository {
 
     @Override
     public List<VideoData> findVideoContents(Contents contents)  {
-        final int numberContentPage = 20;   // 상수를 별도로 관리하는 파일을 생성 해야 할까 ?
+        final int numberContentPage = 10;   // 상수를 별도로 관리하는 파일을 생성 해야 할까 ?
         String date = contents.getDate();
         int page = contents.getPage();
         int startCountContent = (page - 1) * numberContentPage;
@@ -62,7 +62,7 @@ public class jdbcVideoRepository implements VideoDataRepository {
 
     @Override
     public List<VideoData> findVideoCategoryId(Contents contents) {
-        final int numberContentPage = 20;   // 상수를 별도로 관리하는 파일을 생성 해야 할까 ?
+        final int numberContentPage = 10;   // 상수를 별도로 관리하는 파일을 생성 해야 할까 ?
         int categoryId = contents.getCategoryId();
         String date = contents.getDate();
         int page = contents.getPage();
