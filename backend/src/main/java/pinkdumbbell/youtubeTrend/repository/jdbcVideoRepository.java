@@ -35,8 +35,10 @@ public class jdbcVideoRepository implements VideoDataRepository {
         String period = contents.getPeriod();
         String[] splitPeriod = new String[1];
 
-        if(!period.isEmpty() || (period.length() > 2)) {
-            splitPeriod = period.split("~");
+        System.out.println("period of jdbcVideoRepository :" + period);
+
+        if("PERIOD".equals(period)) {
+            splitPeriod = date.split("~");
         }
 
         String sql = "SELECT * " +
@@ -51,7 +53,7 @@ public class jdbcVideoRepository implements VideoDataRepository {
                         "FROM videodata WHERE InsertDT > ? AND InsertDT < ?) AS videoDataRank " +
                         "WHERE videoDataRank.DailyViewRowNumber > ? AND videoDataRank.DailyViewRowNumber <= ?";
 
-        if(period.isEmpty() || (period.length() < 2)) {
+        if("DATE".equals(period)) {
             return jdbcTemplate.query(sql, new Object[]{date, startCountContent, endCountContent}, memberRowMapper());
         } else {
             return jdbcTemplate.query(periodSql, new Object[]{splitPeriod[0], splitPeriod[1], startCountContent, endCountContent}, memberRowMapper());
@@ -99,23 +101,14 @@ public class jdbcVideoRepository implements VideoDataRepository {
     private RowMapper<VideoData> memberRowMapper() {
         return (rs, rowNum) -> {
             VideoData videoData = new VideoData();
-            videoData.setVideoID(rs.getString("videoID"));
             videoData.setChannelID(rs.getString("channelID"));
-            videoData.setInsertDT(rs.getDate("insertDT"));
             videoData.setPublishedAT(rs.getString("publishedAT"));
             videoData.setTitle(rs.getString("title"));
-            videoData.setDescription(rs.getString("description"));
+            videoData.setTitle(rs.getString("videoID"));
             videoData.setChannelTitle(rs.getString("channelTitle"));
             videoData.setThumbnails(rs.getString("thumbnails"));
             videoData.setViewCount(rs.getLong("viewCount"));
-            videoData.setZeroViewCount(rs.getLong("zeroViewCount"));
             videoData.setDailyViewCount(rs.getInt("dailyViewCount"));
-            videoData.setLikeCount(rs.getInt("likeCount"));
-            videoData.setDislikeCount(rs.getInt("dislikeCount"));
-            videoData.setCommentCount(rs.getInt("commentCount"));
-            videoData.setURL(rs.getString("URL"));
-            videoData.setCategoryID(rs.getInt("categoryID"));
-            videoData.setUpdateDT(rs.getDate("updateDT"));
 
             return videoData;
         };

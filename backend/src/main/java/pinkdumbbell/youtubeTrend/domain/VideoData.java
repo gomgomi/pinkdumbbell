@@ -4,30 +4,22 @@ import java.text.DateFormat;
 import java.util.Date;
 
 public class VideoData {
-    private String videoID;
+    private Long index;
     private String channelID;
-    private Date insertDT;
-    private String publishedAT;
-    private String title;
-    private String description;
     private String channelTitle;
-    private String thumbnails;
-    private Long viewCount;
-    private Long zeroViewCount;
     private int dailyViewCount;
-    private int likeCount;
-    private int dislikeCount;
-    private int commentCount;
-    private String URL;
-    private int categoryID;
-    private Date updateDT;
+    private String publishedAT;
+    private String thumbnails;
+    private String title;
+    private String videoID;
+    private Long viewCount;
 
-    public String getVideoID() {
-        return videoID;
+    public Long getIndex() {
+        return index;
     }
 
-    public void setVideoID(String videoID) {
-        this.videoID = videoID;
+    public void setIndex(Long index) {
+        this.index = index;
     }
 
     public String getChannelID() {
@@ -38,68 +30,12 @@ public class VideoData {
         this.channelID = channelID;
     }
 
-    public Date getInsertDT() {
-        return insertDT;
-    }
-
-    public void setInsertDT(Date insertDT) {
-        this.insertDT = insertDT;
-    }
-
-    public String getPublishedAT() {
-        return publishedAT;
-    }
-
-    public void setPublishedAT(String publishedAT) {
-        this.publishedAT = publishedAT;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getChannelTitle() {
         return channelTitle;
     }
 
     public void setChannelTitle(String channelTitle) {
         this.channelTitle = channelTitle;
-    }
-
-    public String getThumbnails() {
-        return thumbnails;
-    }
-
-    public void setThumbnails(String thumbnails) {
-        this.thumbnails = thumbnails;
-    }
-
-    public Long getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(Long viewCount) {
-        this.viewCount = viewCount;
-    }
-
-    public Long getZeroViewCount() {
-        return zeroViewCount;
-    }
-
-    public void setZeroViewCount(Long zeroViewCount) {
-        this.zeroViewCount = zeroViewCount;
     }
 
     public int getDailyViewCount() {
@@ -110,51 +46,43 @@ public class VideoData {
         this.dailyViewCount = dailyViewCount;
     }
 
-    public int getLikeCount() {
-        return likeCount;
+    public String getPublishedAT() {
+        return publishedAT;
     }
 
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
+    public void setPublishedAT(String publishedAT) {
+        this.publishedAT = publishedAT;
     }
 
-    public int getDislikeCount() {
-        return dislikeCount;
+    public String getThumbnails() {
+        return thumbnails;
     }
 
-    public void setDislikeCount(int dislikeCount) {
-        this.dislikeCount = dislikeCount;
+    public void setThumbnails(String thumbnails) {
+        this.thumbnails = thumbnails;
     }
 
-    public int getCommentCount() {
-        return commentCount;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCommentCount(int commentCount) {
-        this.commentCount = commentCount;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getURL() {
-        return URL;
+    public String getVideoID() {
+        return videoID;
     }
 
-    public void setURL(String URL) {
-        this.URL = URL;
+    public void setVideoID(String videoID) {
+        this.videoID = videoID;
     }
 
-    public int getCategoryID() {
-        return categoryID;
+    public Long getViewCount() {
+        return viewCount;
     }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
-    }
-
-    public Date getUpdateDT() {
-        return updateDT;
-    }
-
-    public void setUpdateDT(Date updateDT) {
-        this.updateDT = updateDT;
+    public void setViewCount(Long viewCount) {
+        this.viewCount = viewCount;
     }
 }
