@@ -45,13 +45,13 @@ public class jdbcVideoRepository implements VideoDataRepository {
                 "FROM (" +
                 "SELECT *, ROW_NUMBER() OVER (ORDER BY DailyViewCount DESC) AS DailyViewRowNumber " +
                 "FROM videodata WHERE InsertDT = ?) AS videoDataRank " +
-                "WHERE videoDataRank.DailyViewRowNumber > ? AND videoDataRank.DailyViewRowNumber <= ?";
+                "WHERE videoDataRank.DailyViewRowNumber >= ? AND videoDataRank.DailyViewRowNumber <= ?";
 
         String periodSql = "SELECT * " +
                         "FROM (" +
                         "SELECT *, ROW_NUMBER() OVER (ORDER BY DailyViewCount DESC) AS DailyViewRowNumber " +
-                        "FROM videodata WHERE InsertDT > ? AND InsertDT < ?) AS videoDataRank " +
-                        "WHERE videoDataRank.DailyViewRowNumber > ? AND videoDataRank.DailyViewRowNumber <= ?";
+                        "FROM videodata WHERE InsertDT >= ? AND InsertDT <= ? GROUP BY VideoID) AS videoDataRank " +
+                        "WHERE videoDataRank.DailyViewRowNumber >= ? AND videoDataRank.DailyViewRowNumber <= ?";
 
         if("Daily".equalsIgnoreCase(period)) {
             return jdbcTemplate.query(sql, new Object[]{date, startCountContent, endCountContent}, memberRowMapper());
