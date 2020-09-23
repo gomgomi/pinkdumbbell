@@ -1,33 +1,7 @@
 import React, { useState } from "react";
 import { Accordion, Card, useAccordionToggle, Container } from "react-bootstrap";
 import { ChevronDown, ChevronUp } from "react-bootstrap-icons";
-
-const TagNames = {
-  main: [
-    "전체",
-    "패션/뷰티",
-    "푸드/먹방",
-    "엔터테인먼트",
-    "Vlog/일상",
-    "여행",
-    "ASMR",
-    "게임",
-    "펫/동물",
-  ],
-  sub: [
-    "IT/과학기술",
-    "영화/애니",
-    "자동차",
-    "음악",
-    "스포츠",
-    "FUN",
-    "뉴스/정치",
-    "교육",
-    "사회/종교",
-    "키즈",
-    "기타",
-  ],
-};
+import { TagNames } from "./filterTypes";
 
 interface AccodionToggleButtonProps {
   eventKey: string;
@@ -55,17 +29,22 @@ const AccodionToggleButton = (props: AccodionToggleButtonProps) => {
   );
 };
 
+interface TagFilterProps {
+  tag: string;
+  onChangeTag: (tag: string) => void;
+}
+
 /**
  * Tag 필터 목록을 표시하는 컴포넌트.
  */
-const TagFilter = () => {
+const TagFilter = (props: TagFilterProps) => {
   const [isExpanded, setExpanded] = useState(false);
-  const [selectedTag, setSelectedTag] = useState(TagNames.main[0]);
 
   const changeTag = (event: React.MouseEvent<HTMLElement>) => {
     const clickedTagName: string = event.currentTarget.textContent || "";
-    if (selectedTag && selectedTag !== clickedTagName)
-      setSelectedTag(clickedTagName);
+    if (clickedTagName) {
+      props.onChangeTag(clickedTagName);
+    }
   };
 
   const toggledTagList = () => {
@@ -78,7 +57,7 @@ const TagFilter = () => {
         <Card className="panel-filter">
           <Card.Header className="panel-filter">
             {TagNames.main.map((name, index) => (
-              <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
+              <button className={props.tag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
             ))}
             <AccodionToggleButton
               eventKey="0"
@@ -89,7 +68,7 @@ const TagFilter = () => {
           <Accordion.Collapse eventKey="0" className="panel-filter accordion-collapse">
             <Card.Body>
               {TagNames.sub.map((name, index) => (
-                <button className={selectedTag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
+                <button className={props.tag === name ? "filter-tag on" : "filter-tag"} onClick={changeTag} key={index}>{name}</button>
               ))}
             </Card.Body>
           </Accordion.Collapse>

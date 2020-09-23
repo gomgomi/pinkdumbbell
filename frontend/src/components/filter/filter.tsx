@@ -6,15 +6,20 @@ import DateFilter from "./filter-date";
 interface FilterProps {
   date: Date;
   period: string;
+  tag: string;
   onChangeDate: (date: Date) => void;
   onChangePeriod: (period: string) => void;
+  onChangeTag: (tag: string) => void;
 }
 
 const Filter = (props: FilterProps) => {
   return (
     <Container>
       <Row>
-        <TagFilter />
+        <TagFilter
+          tag={props.tag}
+          onChangeTag={props.onChangeTag}
+        />
       </Row>
       <Row>
         <DateFilter
