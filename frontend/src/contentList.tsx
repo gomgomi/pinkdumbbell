@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Card } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
 
+import axios from "axios";
+
 interface ContentItemProps {
-  thumbnail: string;
-  date: string;
-  title: string;
-  hits: number;
-}
+  thumbnails: string,
+  title: string,
+  viewCount: number
+  date: string,
+
+  index?: number,
+  channelId?: string,
+  channelThumbnails?: string,
+  channelTitle?: string,
+  dailyViewCount?: number,
+  publishedAt?: string,
+  videoId?: string,
+};
+
+const dateToString = (date: Date) => {
+  let dateParam = date.getFullYear().toString();
+  dateParam += "-";
+  dateParam += date.getMonth().toString().padStart(2, "0");
+  dateParam += "-";
+  dateParam += date.getDate().toString().padStart(2, "0");
+
+  return dateParam;
+};
 
 /**
  * ContentList에 표시되는 아이템 컴포넌트
@@ -15,11 +35,11 @@ interface ContentItemProps {
 const ContentItem = (props: ContentItemProps) => {
   return (
     <Card className="content">
-      <Card.Img variant="top" src={props.thumbnail} />
+      <Card.Img variant="top" src={props.thumbnails} />
       <Card.Body>
         <Card.Text>{props.date}</Card.Text>
         <Card.Text>{props.title}</Card.Text>
-        <Card.Text>{props.hits}</Card.Text>
+        <Card.Text>{props.viewCount}</Card.Text>
       </Card.Body>
     </Card>
   );
@@ -36,36 +56,95 @@ const ContentItem = (props: ContentItemProps) => {
  }
 
 const ContentList = (props: ContentListProps) => {
-  const [contents, setContents] = useState<JSX.Element[]>([]);
+  const [contents, setContents] = useState<any[]>([]);
   const [hasMoreContents, setHasMoreContents] = useState(true);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    getContents();
+  }, [props])
+
+  const createContents = (data: ContentItemProps[]) => {
+    const newContents = Object.assign([], contents);
+    data.map((elem) => (
+      newContents.push(
+        <ContentItem
+          key={elem.index}
+          thumbnails={require(elem.thumbnails)}
+          date={dateToString(props.date)}
+          title={elem.title}
+          viewCount={elem.viewCount}
+        />
+      )
+    ));
+
+    return newContents;
+  };
+
+  /**
+   * category, date, period 값이 변경되어 새로운 컨턴츠 목록을 요청.
+   */
+  const getContents = async () => {
+    try {
+      const response = await axios.get(
+        "/contents",
+        {
+          params: {
+            categoryId: props.category,
+            page: 1,
+            date: dateToString(props.date),
+            period: props.period.toLowerCase()
+          }
+        }
+      );
+
+      console.log(response);
+
+      setContents(createContents(response.data));
+      setPage(1);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  /**
+   * 현재 검색조건으로 추가 컨텐츠를 요청.
+   * 스크롤이 최하단에 도달할 경우 호출되는 callback function에서 사용.
+   */
+  const getMoreContents = async () => {
+    try {
+      const nextPage = page + 1;
+      const response = await axios.get(
+        "/contents",
+        {
+          params: {
+            categoryId: props.category,
+            page: nextPage,
+            date: dateToString(props.date),
+            period: props.period.toLowerCase()
+          }
+        }
+      );
+
+      console.log(response);
+
+      const newContents = Object.assign([], contents);
+      newContents.push(createContents(response.data));
+
+      setContents(newContents);
+      setPage(nextPage);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const loadContents = () => {
     if (contents.length >= 100) {
       setHasMoreContents(false);
     } else {
-      const newContents = Object.assign([], contents);
-      const prevContentCount = newContents.length;
-  
-      let todayDate = new Date();
-      let date = String(todayDate.getFullYear());
-      date += "-";
-      date += String(todayDate.getMonth() + 1).padStart(2, "0");
-      date += "-";
-      date += String(todayDate.getDate()).padStart(2, "0");
-  
-      for (let i = 0; i < 10; i++) {
-        newContents.push(
-          <ContentItem
-            key={prevContentCount + i}
-            thumbnail={require("./assets/test-content-thumbnail.jpg")}
-            date={date}
-            title="Test title"
-            hits={prevContentCount + i}
-          />
-        );
-      }
-  
-      setContents(newContents);
+      getMoreContents();
     }
   };
 
