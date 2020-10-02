@@ -1,15 +1,15 @@
 import React from "react";
 import { Container, Row } from "react-bootstrap";
-import TagFilter from "./filter-tag";
+import TagFilter from "./filter-category";
 import DateFilter from "./filter-date";
 
 interface FilterProps {
   date: Date;
   period: string;
-  tag: string;
+  category: number;
   onChangeDate: (date: Date) => void;
   onChangePeriod: (period: string) => void;
-  onChangeTag: (tag: string) => void;
+  onChangeCategory: (category: number) => void;
 }
 
 const Filter = (props: FilterProps) => {
@@ -17,8 +17,8 @@ const Filter = (props: FilterProps) => {
     <Container>
       <Row>
         <TagFilter
-          tag={props.tag}
-          onChangeTag={props.onChangeTag}
+          category={props.category}
+          onChangeCategory={props.onChangeCategory}
         />
       </Row>
       <Row>

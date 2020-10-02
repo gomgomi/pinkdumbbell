@@ -28,7 +28,14 @@ const ContentItem = (props: ContentItemProps) => {
 /**
  * 서버로부터 획득한 컨텐츠 리스트를 표시하는 컴포넌트
  */
-const ContentList = () => {
+
+ interface ContentListProps {
+  date: Date;
+  period: string;
+  category: number;
+ }
+
+const ContentList = (props: ContentListProps) => {
   const [contents, setContents] = useState<JSX.Element[]>([]);
   const [hasMoreContents, setHasMoreContents] = useState(true);
 

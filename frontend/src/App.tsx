@@ -6,12 +6,12 @@ import { Container, Row } from "react-bootstrap";
 import Filter from "./components/filter/filter";
 import ContentList from "./contentList";
 import TopScrollButton from "./topScrollButton";
-import { Period, TagNames } from "./components/filter/filterTypes";
+import { Period, Categories } from "./components/filter/filterTypes";
 
 const App = () => {
   const [date, setDate] = useState(new Date());
   const [period, setPeriod] = useState(Period[0]);
-  const [tag, setTag] = useState(TagNames.main[0]);
+  const [category, setCategory] = useState(Categories.main[0].id);
 
   const handleDateChange = (date: Date) => {
     setDate(date);
@@ -21,8 +21,8 @@ const App = () => {
     setPeriod(period);
   };
 
-  const handleTagChange = (tag: string) => {
-    setTag(tag);
+  const handleCategoryChange = (tag: number) => {
+    setCategory(tag);
   };
 
   return (
@@ -32,14 +32,18 @@ const App = () => {
           <Filter
             date={date}
             period={period}
-            tag={tag}
+            category={category}
             onChangeDate={handleDateChange}
             onChangePeriod={handlePeriodChange}
-            onChangeTag={handleTagChange}
+            onChangeCategory={handleCategoryChange}
           />
         </Row>
         <Row>
-          <ContentList />
+          <ContentList
+            date={date}
+            period={period}
+            category={category}
+          />
         </Row>
       </Container>
       <TopScrollButton />
