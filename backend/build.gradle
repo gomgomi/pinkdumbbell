@@ -8,6 +8,12 @@ group = 'pinkdumbbell'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+jar {
+	manifest{
+		attributes 'Main-Class': 'HelloWorld'
+	}
+}
+
 repositories {
 	mavenCentral()
 }
