@@ -86,10 +86,6 @@
     "Content": {
       "type": "object",
       "properties": {
-        "index": {
-          "type": "integer",
-          "format": "int64"
-        },
         "channelId": {
           "type": "string"
         },
