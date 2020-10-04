@@ -1,13 +1,19 @@
 package pinkdumbbell.youtubeTrend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pinkdumbbell.youtubeTrend.domain.Contents;
 import pinkdumbbell.youtubeTrend.domain.VideoData;
 import pinkdumbbell.youtubeTrend.service.VideoDataService;
+import pinkdumbbell.youtubeTrend.util.DateUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,6 +47,33 @@ public class YoutubeTrendController {
         contents.setDate(date);
         contents.setPeriod(period);
 
+        System.out.println("/contents");
+        System.out.println("date :" + date);
+        System.out.println("period :" + period);
+
+        if("Daily".equalsIgnoreCase(period)){
+            contents.setDate(date);
+            System.out.println("contents.getDate()" + contents.getDate());
+        } else if("Weekly".equalsIgnoreCase(period)){
+            Date firstDate;
+            Date endDate;
+            String periodDates;
+            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date transFormDate = transFormat.parse(date);
+                firstDate = DateUtils.getFirstDateOfWeek(transFormDate);
+                endDate = DateUtils.getLastDateOfWeek(transFormDate);
+                periodDates = transFormat.format(firstDate) + "~" + transFormat.format(endDate);
+                contents.setDate(periodDates);
+                System.out.println("contents.getDate()" + contents.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("400 error");
+            return (List<VideoData>) new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
         List<VideoData> videoData = videoDataService.findVideoContents(contents);
         return videoData;
     }
@@ -54,8 +87,23 @@ public class YoutubeTrendController {
         Contents contents = new Contents();
         contents.setCategoryId(categoryId);
         contents.setPage(page);
-        contents.setDate(date);
-        contents.setPeriod(period);
+
+        if("Daily".equalsIgnoreCase(period)){
+            contents.setDate(date);
+        } else if("Weekly".equalsIgnoreCase(period)){
+            Date firstDate;
+            Date endDate;
+            String periodDates;
+            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date transFormDate = transFormat.parse(date);
+                firstDate = DateUtils.getFirstDateOfWeek(transFormDate);
+                endDate = DateUtils.getFirstDateOfWeek(transFormDate);
+                periodDates = transFormat.format(firstDate) + "~" + transFormat.format(endDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         List<VideoData> videoData = videoDataService.findVideoCategoryId(contents);
 
