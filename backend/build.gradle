@@ -10,7 +10,7 @@ sourceCompatibility = '11'
 
 jar {
 	manifest{
-		attributes 'Main-Class': 'HelloWorld'
+		attributes 'Main-Class': 'YoutubeTrendApplication'
 	}
 }
 
