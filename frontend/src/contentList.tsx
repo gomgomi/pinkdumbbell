@@ -4,6 +4,8 @@ import InfiniteScroll from "react-infinite-scroller";
 
 import axios from "axios";
 
+const BASE_URL = "http://localhost:8081/";
+
 interface ContentItemProps {
   thumbnails: string,
   title: string,
@@ -70,7 +72,7 @@ const ContentList = (props: ContentListProps) => {
       newContents.push(
         <ContentItem
           key={elem.index}
-          thumbnails={require(elem.thumbnails)}
+          thumbnails={elem.thumbnails}
           date={dateToString(props.date)}
           title={elem.title}
           viewCount={elem.viewCount}
@@ -89,6 +91,7 @@ const ContentList = (props: ContentListProps) => {
       const response = await axios.get(
         "/contents",
         {
+          baseURL: BASE_URL,
           params: {
             categoryId: props.category,
             page: 1,
@@ -118,6 +121,7 @@ const ContentList = (props: ContentListProps) => {
       const response = await axios.get(
         "/contents",
         {
+          baseURL: BASE_URL,
           params: {
             categoryId: props.category,
             page: nextPage,
