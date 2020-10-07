@@ -3,10 +3,10 @@ import { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row } from "react-bootstrap";
-import Filter from "./components/filter/filter";
-import ContentList from "./contentList";
-import TopScrollButton from "./topScrollButton";
-import { Period, Categories } from "./components/filter/filterTypes";
+import Filter from "./components/filter";
+import ContentList from "./components/contentList";
+import TopScrollButton from "./components/topScrollButton";
+import { Period, Categories } from "./components/filterTypes";
 
 const App = () => {
   const [date, setDate] = useState(new Date());
