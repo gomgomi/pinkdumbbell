@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Card } from "react-bootstrap";
-import InfiniteScroll from "react-infinite-scroller";
+import usePageBottom from "./usePageBottom";
 
 import axios from "axios";
 
@@ -59,15 +59,22 @@ const ContentItem = (props: ContentItemProps) => {
 
 const ContentList = (props: ContentListProps) => {
   const [contents, setContents] = useState<any[]>([]);
-  const [hasMoreContents, setHasMoreContents] = useState(true);
   const [page, setPage] = useState(1);
+
+  const isPageBottom = usePageBottom();
 
   useEffect(() => {
     getContents();
-  }, [props])
+  }, [props]);
+
+  useEffect(() => {
+    if (isPageBottom) {
+      getMoreContents();
+    }
+  }, [isPageBottom]);
 
   const createContents = (data: ContentItemProps[]) => {
-    const newContents = Object.assign([], contents);
+    const newContents: any[] = [];
     data.map((elem) => (
       newContents.push(
         <ContentItem
@@ -101,9 +108,16 @@ const ContentList = (props: ContentListProps) => {
         }
       );
 
-      console.log(response);
+      // console.log(response);
+      
+      const newContents: any[] = [];
 
-      setContents(createContents(response.data));
+      const responseContents = createContents(response.data);
+      if (responseContents.length > 0) {
+        newContents.push(responseContents); 
+      }
+
+      setContents(newContents);
       setPage(1);
 
     } catch (error) {
@@ -131,38 +145,25 @@ const ContentList = (props: ContentListProps) => {
         }
       );
 
-      console.log(response);
+      // console.log(response);
+      
+      const responseContents = createContents(response.data);
+      if (responseContents.length > 0) {
+        const newContents = Object.assign([], contents);
+        newContents.push(responseContents);
 
-      const newContents = Object.assign([], contents);
-      newContents.push(createContents(response.data));
-
-      setContents(newContents);
-      setPage(nextPage);
-
+        setContents(newContents);
+        setPage(nextPage);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const loadContents = () => {
-    if (contents.length >= 100) {
-      setHasMoreContents(false);
-    } else {
-      getMoreContents();
-    }
-  };
-
   return (
-    <InfiniteScroll
-      pageStart={0}
-      loadMore={loadContents}
-      hasMore={hasMoreContents}
-      loader={<div className="loader" key={0}>Loading ...</div>}
-    >
-      <Container className="content-list">
-        {contents}
-      </Container>
-    </InfiniteScroll>
+    <Container className="content-list">
+      {contents}
+    </Container>
   );
 };
 
