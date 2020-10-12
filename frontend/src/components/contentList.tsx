@@ -4,7 +4,7 @@ import usePageBottom from "./usePageBottom";
 
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8081/";
+const BASE_URL = "http://18.222.230.125:8081/";
 
 interface ContentItemProps {
   thumbnails: string,
