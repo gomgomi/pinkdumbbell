@@ -41,7 +41,7 @@ def youtube_search(Max_Result, apiKey, CateID, DBIP, DBPort, DBID, DBPW, DBName)
     videos.append(search_result["snippet"]["title"])
     videos.append(search_result["snippet"]["description"])
     videos.append(search_result["snippet"]["channelTitle"])    
-    videos.append(search_result["snippet"]["thumbnails"]["default"]["url"])
+    videos.append(search_result["snippet"]["thumbnails"]["maxres"]["url"])
     videos.append(search_result["statistics"]["viewCount"])   
     try:
       videos.append(search_result["statistics"]["likeCount"])    
