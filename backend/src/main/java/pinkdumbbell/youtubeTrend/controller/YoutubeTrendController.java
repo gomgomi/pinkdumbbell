@@ -39,11 +39,13 @@ public class YoutubeTrendController {
 
     @CrossOrigin("*")
     @RequestMapping(value = "/contents", method = RequestMethod.GET)
-    public List<VideoData> contents(@RequestParam("page") int page,
+    public List<VideoData> contents(@RequestParam("categoryId") int categoryId,
+                             @RequestParam("page") int page,
                              @RequestParam("date") String date,
                              @RequestParam("period") String period)
     {
         Contents contents = new Contents();
+        contents.setCategoryId(categoryId);
         contents.setPage(page);
         contents.setDate(date);
         contents.setPeriod(period);

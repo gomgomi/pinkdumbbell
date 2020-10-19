@@ -24,6 +24,7 @@ public class jdbcVideoRepository implements VideoDataRepository {
     @Override
     public List<VideoData> findVideoContents(Contents contents)  {
         final int numberContentPage = 10;   // 상수를 별도로 관리하는 파일을 생성 해야 할까 ?
+        int categoryId = contents.getCategoryId();
         String date = contents.getDate();
         int page = contents.getPage();
         int startCountContent = (page - 1) * numberContentPage;
@@ -44,19 +45,19 @@ public class jdbcVideoRepository implements VideoDataRepository {
         String sql = "SELECT * " +
                 "FROM (" +
                 "SELECT *, ROW_NUMBER() OVER (ORDER BY DailyViewCount DESC) AS DailyViewRowNumber " +
-                "FROM videodata WHERE InsertDT = ?) AS videoDataRank " +
+                "FROM videodata WHERE InsertDT = ? AND categoryId = ?) AS videoDataRank " +
                 "WHERE videoDataRank.DailyViewRowNumber >= ? AND videoDataRank.DailyViewRowNumber <= ?";
 
         String periodSql = "SELECT * " +
                         "FROM (" +
                         "SELECT *, ROW_NUMBER() OVER (ORDER BY DailyViewCount DESC) AS DailyViewRowNumber " +
                         "FROM videodata WHERE InsertDT >= ? AND InsertDT <= ? GROUP BY VideoID) AS videoDataRank " +
-                        "WHERE videoDataRank.DailyViewRowNumber >= ? AND videoDataRank.DailyViewRowNumber <= ?";
+                        "WHERE videoDataRank.DailyViewRowNumber >= ? AND videoDataRank.DailyViewRowNumber <= ? AND categoryId = ?";
 
         if("Daily".equalsIgnoreCase(period)) {
-            return jdbcTemplate.query(sql, new Object[]{date, startCountContent, endCountContent}, memberRowMapper());
+            return jdbcTemplate.query(sql, new Object[]{date, categoryId, startCountContent, endCountContent}, memberRowMapper());
         } else {
-            return jdbcTemplate.query(periodSql, new Object[]{splitPeriod[0], splitPeriod[1], startCountContent, endCountContent}, memberRowMapper());
+            return jdbcTemplate.query(periodSql, new Object[]{splitPeriod[0], splitPeriod[1], categoryId, startCountContent, endCountContent}, memberRowMapper());
         }
     }
 
