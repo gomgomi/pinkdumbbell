@@ -11,7 +11,7 @@ import { Period, Categories } from "./components/filterTypes";
 const App = () => {
   const [date, setDate] = useState(new Date());
   const [period, setPeriod] = useState(Period[0]);
-  const [category, setCategory] = useState(Categories.main[0].id);
+  const [category, setCategory] = useState(Categories[0].id);
 
   const handleDateChange = (date: Date) => {
     setDate(date);

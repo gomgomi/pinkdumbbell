@@ -3,13 +3,7 @@
   border-radius: 20px;
   padding: 5px;
   margin: 5px 10px;
-}
-
-.panel-filter.card,
-.panel-filter.card-header,
-.panel-filter.accordion-collapse {
-  background: transparent;
-  border: none;
+  justify-content: center;
 }
 
 .filter-category {
