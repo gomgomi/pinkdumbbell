@@ -37,6 +37,7 @@ public class YoutubeTrendController {
         return videoData;
     }
 
+    @CrossOrigin("*")
     @RequestMapping(value = "/contents", method = RequestMethod.GET)
     public List<VideoData> contents(@RequestParam("page") int page,
                              @RequestParam("date") String date,
