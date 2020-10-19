@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -24,6 +24,10 @@ const App = () => {
   const handleCategoryChange = (tag: number) => {
     setCategory(tag);
   };
+
+  useEffect(() => {
+    document.title = "Pling"
+  });
 
   return (
     <div>
