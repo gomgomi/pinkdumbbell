@@ -3,13 +3,8 @@
   border-radius: 20px;
   padding: 5px;
   margin: 5px 10px;
-}
-
-.panel-filter.card,
-.panel-filter.card-header,
-.panel-filter.accordion-collapse {
-  background: transparent;
-  border: none;
+  justify-content: center;
+  text-align: center;
 }
 
 .filter-category {
@@ -46,6 +41,9 @@
 
 .datepicker {
   border: 1px solid #000;
+  border-radius: 5px;
+  text-align: center;
+  height: 38px;
 }
 
 .datepicker:hover {
@@ -68,7 +66,8 @@
 }
 
 .content {
-  max-width: 300px;
+  min-width: 320px !important;
+  width: 320px;
 }
 
 .content.card img {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,7 +11,7 @@ import { Period, Categories } from "./components/filterTypes";
 const App = () => {
   const [date, setDate] = useState(new Date());
   const [period, setPeriod] = useState(Period[0]);
-  const [category, setCategory] = useState(Categories.main[0].id);
+  const [category, setCategory] = useState(Categories[0].id);
 
   const handleDateChange = (date: Date) => {
     setDate(date);
@@ -24,6 +24,10 @@ const App = () => {
   const handleCategoryChange = (tag: number) => {
     setCategory(tag);
   };
+
+  useEffect(() => {
+    document.title = "Pling"
+  });
 
   return (
     <div>
