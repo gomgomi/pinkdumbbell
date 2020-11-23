@@ -7,9 +7,9 @@
 
 # :man: 팀원소개
 
-##  배정환(<https://github.com/gomgomi>) - 프론트앤드 + PL
-##          김태수(<https://github.com/rnhappysmile>) - 백앤드
-##          우용현(<https://github.com/singo112ok>) - 인프라
+##  배정환(<https://github.com/gomgomi>) - 프론트앤드
+##  김태수(<https://github.com/rnhappysmile>) - 백앤드
+##  우용현(<https://github.com/singo112ok>) - 인프라
 <br>
 
 ## :bar_chart: 프론트앤드 
@@ -30,7 +30,7 @@
 ###     - 역할 : 구글API를 통하여 주기적으로 인기데이터 수집, DB에 저장
 <br>
 
-## 동작화면
+# :tv: 동작화면
 ### - 전체 Daily 화면
 ![전체_daily_20201020](https://user-images.githubusercontent.com/67327136/98004226-03273a80-1e33-11eb-800e-0b9fa22b9807.png)
 
